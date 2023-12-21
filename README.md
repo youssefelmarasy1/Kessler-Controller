@@ -20,3 +20,14 @@ To run the project and observe the fuzzy controller in action, follow these step
 ## Open the Kessler Asteroids Game environment with the provided test controller.
 
 ## Run the fuzzy controller code (my_controller.py) alongside the test controller (test_controller.py).
+
+# File Structure
+fuzzy_controller.py: The main implementation of the fuzzy logic controller.
+test_controller.py: The baseline test controller that fires continuously without movement.
+README.md: Project documentation providing an overview, instructions, and information about the file structure.
+
+# Usage
+Modify the fuzzy controller implementation in fuzzy_controller.py to enhance its decision-making process and improve its ability to navigate through the game environment. Adjust the fuzzy logic rules, membership functions, and input variables to optimize performance.
+
+# Contributing
+Feel free to contribute to the project by suggesting improvements, or enhancements, or by submitting bug reports. Create a pull request with your changes or open an issue for discussion.
