@@ -1,6 +1,6 @@
 # ECE 449 Intelligent Systems Engineering
 # Fall 2023
-# Aiman Saif
+# Aiman Saif, Youssef Elmarasy, Austin Newsham
 
 from kesslergame import KesslerController # In Eclipse, the name of the library is kesslergame, not src.kesslergame
 from typing import Dict, Tuple
@@ -13,7 +13,7 @@ import matplotlib as plt
 import random
 import EasyGA
 from kesslergame import Scenario, KesslerGame, GraphicsType, TrainerEnvironment
-from profcode import ScottDickController
+from test_controller import TestController
 
 class MyController(KesslerController):
     
@@ -338,7 +338,7 @@ def fitness(chromosome):
     test_controller = 0
     for i in range(2):
         game = TrainerEnvironment(settings=game_settings) # Use this for max-speed, no-graphics simulation
-        score, perf_data = game.run(scenario=my_test_scenario, controllers = [MyController(chromosomes), ScottDickController()])
+        score, perf_data = game.run(scenario=my_test_scenario, controllers = [MyController(chromosomes), TestController()])
         if ([controller.eval_frames for controller in score.final_controllers][0] > 300):
             my_controller += [team.asteroids_hit for team in score.teams][0]
             test_controller += 1

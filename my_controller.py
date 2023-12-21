@@ -11,9 +11,8 @@ import math
 import numpy as np
 import matplotlib as plt
 import random
-#import EasyGA
 from kesslergame import Scenario, KesslerGame, GraphicsType, TrainerEnvironment
-#from profcode import ScottDickController
+
 
 
 
@@ -46,7 +45,6 @@ class MyController(KesslerController):
         # Declare variables
         bullet_time = ctrl.Antecedent(np.arange(0,1.0,0.002), 'bullet_time')
         theta_delta = ctrl.Antecedent(np.arange(-1*math.pi,math.pi,0.1), 'theta_delta') # Radians due to Python
-        #ship_turn = ctrl.Consequent(np.arange(-180,180,1), 'ship_turn') # Degrees due to Kessler
         ship_turn = ctrl.Consequent(np.arange(-360,360,0.1), 'ship_turn') # Degrees due to Kessler
         ship_fire = ctrl.Consequent(np.arange(-1,1,0.1), 'ship_fire')
         
@@ -63,13 +61,6 @@ class MyController(KesslerController):
         theta_delta['PS'] = fuzz.trimf(theta_delta.universe, [0,math.pi/6,math.pi/3])
         theta_delta['PL'] = fuzz.smf(theta_delta.universe,math.pi/6,math.pi/3)
         
-        #Declare fuzzy sets for the ship_turn consequent; this will be returned as turn_rate.
-        # ship_turn['NL'] = fuzz.trimf(ship_turn.universe, [-180,-90,-30])
-        # ship_turn['NS'] = fuzz.trimf(ship_turn.universe, [-90,-30,0])
-        # ship_turn['Z'] = fuzz.trimf(ship_turn.universe, [-15,0,15])
-        # ship_turn['PS'] = fuzz.trimf(ship_turn.universe, [0,30,90])
-        # ship_turn['PL'] = fuzz.trimf(ship_turn.universe, [30,90,180])
-        #slightly modified
         # The numbers are directly copied and pasted from EasyGA results
         ship_turn['NL'] = fuzz.trimf(ship_turn.universe, [-360, -345.01740254474504, -326.96133522775204])
         ship_turn['NS'] = fuzz.trimf(ship_turn.universe, [-326.96133522775204, -51.46618784411413, 0])
@@ -85,9 +76,7 @@ class MyController(KesslerController):
         
                 
         #Declare each fuzzy rule
-        #rule1 = ctrl.Rule(bullet_time['L'] & theta_delta['NL'], (ship_turn['NL'], ship_fire['N']))
         rule1 = ctrl.Rule(bullet_time['L'] & theta_delta['NL'], (ship_turn['NL'], ship_fire['N']))
-        #rule2 = ctrl.Rule(bullet_time['L'] & theta_delta['NS'], (ship_turn['NS'], ship_fire['Y']))
         rule2 = ctrl.Rule(bullet_time['L'] & theta_delta['NS'], (ship_turn['NS'], ship_fire['Y']))
         rule3 = ctrl.Rule(bullet_time['L'] & theta_delta['Z'], (ship_turn['Z'], ship_fire['Y']))
         rule4 = ctrl.Rule(bullet_time['L'] & theta_delta['PS'], (ship_turn['PS'], ship_fire['Y']))
@@ -97,7 +86,6 @@ class MyController(KesslerController):
         rule8 = ctrl.Rule(bullet_time['M'] & theta_delta['Z'], (ship_turn['Z'], ship_fire['Y']))    
         rule9 = ctrl.Rule(bullet_time['M'] & theta_delta['PS'], (ship_turn['PS'], ship_fire['Y']))
         rule10 = ctrl.Rule(bullet_time['M'] & theta_delta['PL'], (ship_turn['PL'], ship_fire['N']))
-        #rule11 = ctrl.Rule(bullet_time['S'] & theta_delta['NL'], (ship_turn['NL'], ship_fire['Y']))
         rule11 = ctrl.Rule(bullet_time['S'] & theta_delta['NL'], (ship_turn['NL'], ship_fire['Y']))
         rule12 = ctrl.Rule(bullet_time['S'] & theta_delta['NS'], (ship_turn['NS'], ship_fire['Y']))
         rule13 = ctrl.Rule(bullet_time['S'] & theta_delta['Z'], (ship_turn['Z'], ship_fire['Y']))
@@ -132,8 +120,7 @@ class MyController(KesslerController):
         self.targeting_control.addrule(rule13)
         self.targeting_control.addrule(rule14)
         self.targeting_control.addrule(rule15)
-        
-        #our code        
+              
         ship_thrust = ctrl.Consequent(np.arange(-480.0, 480.0, 1.0), 'ship_thrust')
         distance_diff = ctrl.Antecedent(np.arange(-1000.0, 1000.0, 1), 'distance_diff')
         
@@ -181,35 +168,23 @@ class MyController(KesslerController):
         # Membership functions for distance_diff
         distance_diff['NL'] = fuzz.trimf(distance_diff.universe, chromosome['distance_diff'][0])
         distance_diff['NS'] = fuzz.trimf(distance_diff.universe, chromosome['distance_diff'][1])
-        #distance_diff['OK'] = fuzz.trimf(distance_diff.universe, [-100.0, 0.0, 100.0])
         distance_diff['PL'] = fuzz.trimf(distance_diff.universe, chromosome['distance_diff'][2])
         distance_diff['PS'] = fuzz.trimf(distance_diff.universe, chromosome['distance_diff'][3])
 
         ship_thrust['NL'] = fuzz.trimf(ship_thrust.universe, chromosome['ship_thrust'][0])
         ship_thrust['NS'] = fuzz.trimf(ship_thrust.universe, chromosome['ship_thrust'][1])
-        #ship_thrust['NXS'] = fuzz.trimf(ship_thrust.universe, chromosome['ship_thrust'][2])
         ship_thrust['Zero'] = fuzz.trimf(ship_thrust.universe, [0 , 0, 0])
         ship_thrust['PS'] = fuzz.trimf(ship_thrust.universe, chromosome['ship_thrust'][2])
         ship_thrust['PL'] = fuzz.trimf(ship_thrust.universe, chromosome['ship_thrust'][3])
 
-        #thrust_rule1 = ctrl.Rule(distance_diff['NL'], ship_thrust['NS'])
         thrust_rule1 = ctrl.Rule(distance_diff['NL'], ship_thrust['Zero'])
         thrust_rule2 = ctrl.Rule(distance_diff['NS'], ship_thrust['NL'])
         thrust_rule3 = ctrl.Rule(distance_diff['PS'], ship_thrust['PS'])
         thrust_rule4 = ctrl.Rule(distance_diff['PL'], ship_thrust['PL'])
-        #thrust_rule5 = ctrl.Rule(distance_diff['OK'], ship_thrust['Zero'])
         
         # Create the fuzzy control system
         self.thrust_control_system = ctrl.ControlSystem([thrust_rule1, thrust_rule2, thrust_rule3, thrust_rule4])
-        
-        
-        
-        #Rules
-        #Distance large or small 
-        #velocity in 4 steps so consider 4 rules for the velocity steps
-        
-        
-
+     
     def actions(self, ship_state: Dict, game_state: Dict) -> Tuple[float, float, bool]:
         """
         Method processed each time step by this controller.
@@ -312,7 +287,7 @@ class MyController(KesslerController):
         shooting.input['theta_delta'] = shooting_theta
         
         shooting.compute()
-        #Our code
+        
         closest_asteroid_radius = closest_asteroid["aster"]["radius"]
         closest_dist = math.sqrt(asteroid_ship_x**2 + asteroid_ship_y**2)
         #print(closest_asteroid["aster"]["velocity"])
@@ -355,49 +330,4 @@ class MyController(KesslerController):
     def name(self) -> str:
         return "My Controller"
     
-
-
-# def fitness(chromosome):
-#     for i in chromosome:
-#         chromosomes = i.value
-#     my_test_scenario = Scenario(name='Test Scenario',
-#     num_asteroids=5,
-#     ship_states=[
-#     {'position': (400, 400), 'angle': 90, 'lives': 3, 'team': 1},
-#     {'position': (600, 400), 'angle': 90, 'lives': 3, 'team': 2},
-#     ],
-
-#     map_size=(1000, 800),
-#     time_limit=60,
-#     ammo_limit_multiplier=0,
-#     stop_if_no_ammo=False)
-#     game_settings = {'perf_tracker': True,
-#     'graphics_type': GraphicsType.Tkinter,
-#     'realtime_multiplier': 1,
-#     'graphics_obj': None}
-#     my_controller = 0
-#     test_controller = 0
-#     for i in range(2):
-#         game = TrainerEnvironment(settings=game_settings) # Use this for max-speed, no-graphics simulation
-#         score, perf_data = game.run(scenario=my_test_scenario, controllers = [MyController(chromosomes), ScottDickController()])
-#         if ([controller.eval_frames for controller in score.final_controllers][0] > 300):
-#             my_controller += [team.asteroids_hit for team in score.teams][0]
-#             test_controller += 1
-#     print(my_controller / test_controller)
-#     return (my_controller / test_controller)
-
-# def GAtrain_fitness():
-#     ga = EasyGA.GA()
-#     ga.gene_impl = lambda: generate_chromosome()
-#     ga.chromosome_length = 1
-#     ga.population_size = 20
-#     ga.target_fitness_type = 'max'
-#     ga.generation_goal = 1
-#     # ga.crossover_probability=0.8,
-#     # ga.mutation_probability=0.2,
-#     ga.fitness_function_impl = fitness
-#     ga.evolve()
-#     ga.print_best_chromosome()
-    
-# GAtrain_fitness()
 
