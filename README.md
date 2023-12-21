@@ -21,9 +21,16 @@ To run the project and observe the fuzzy controller in action, follow these step
 ### Run the fuzzy controller code (my_controller.py) alongside the test controller (test_controller.py).
 
 ## File Structure
-my_controller.py: The main implementation of the fuzzy logic controller.
-test_controller.py: The baseline test controller that fires continuously without movement.
-graphics_both.py: 
+my_controller.py: Contains the implementation of the Fuzzy Logic Controller using EasyGA for genetic algorithm optimization.
+
+test_controller.py: Provides the code for the test controller, serving as a benchmark for comparison against the developed fuzzy logic controller.
+
+gasys.py: The EasyGA library for genetic algorithm optimization.
+
+graphics_both.py: Graphics module for visualizing the gameplay, copied from the Kessler game GitHub repository.
+
+scenario_test.py: Scenario module for setting up test scenarios, copied from the Kessler game GitHub repository.
+
 README.md: Project documentation providing an overview, instructions, and information about the file structure.
 
 ## Usage
