@@ -12,14 +12,11 @@ To run the project and observe the fuzzy controller in action, follow these step
 
 ## Clone the repository to your local machine:
 
-bash
-Copy code
 `git clone https://github.com/youssefelmarasy1/Kessler-Controller.git`
-Navigate to the project directory:
 
-bash
-Copy code
+### Navigate to the project directory:
 `cd Kessler-Controller`
-Open the Kessler Asteroids Game environment with the provided test controller.
 
-Run the fuzzy controller code (my_controller.py) alongside the test controller (test_controller.py).
+## Open the Kessler Asteroids Game environment with the provided test controller.
+
+## Run the fuzzy controller code (my_controller.py) alongside the test controller (test_controller.py).
