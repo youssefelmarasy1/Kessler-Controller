@@ -1,7 +1,7 @@
 # Fuzzy Controller for Kessler Asteroids Game
 
 ## Overview
-Welcome to the Fuzzy Controller for the Kessler Asteroids Game project! In this repository, we aim to implement a fuzzy logic controller for playing the Kessler implementation of the classic asteroids game. The challenge is to design a controller that surpasses the performance of a basic test controller, which fires continuously without any movement.
+Welcome to the Fuzzy Controller for the Kessler Asteroids Game project! In this repository, we aim to implement a fuzzy logic controller for playing the Kessler implementation of the classic asteroids game. The challenge is to design a controller that surpasses the performance of a basic test controller, which fires continuously without any movement (without either thrust or turn).
 
 ## Project Goal
 The primary objective of this project is to create an intelligent fuzzy logic controller that not only survives but outlasts the test controller. The fuzzy controller should demonstrate improved decision-making, dynamic movement, and strategic firing to navigate the asteroids and avoid collisions while achieving a higher score.
