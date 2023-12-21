@@ -17,8 +17,7 @@ To run the project and observe the fuzzy controller in action, follow these step
 `cd Kessler-Controller`
 
 ### Open the Kessler Asteroids Game environment with the provided test controller.
-
-### Run the fuzzy controller code (my_controller.py) alongside the test controller (test_controller.py).
+`python scenario_test.py`
 
 ## File Structure
 **my_controller.py**: Contains the implementation of the Fuzzy Logic Controller using EasyGA for genetic algorithm optimization.
